@@ -1,35 +1,32 @@
 #!/usr/bin/python3
-'''defines canUnlockAll function'''
+'''LockBoxes Challenge'''
 
 
 def canUnlockAll(boxes):
+    '''determines if all the boxes can be opened or not
+    Returns:
+        True: all boxes can be opened
+        False: not all boxes can be opened
     '''
-    Args:
-        boxes: list
-    returns:
-        True or False
-    '''
-    # Check if the input is valid
-    if not boxes:
-        return False
-    # Set to keep track of which boxes have been opened
-    opened = set()
-    # Queue for the keys
-    keys = []
-    # Add the keys in the first box to the queue
-    # and mark the first box as opened
-    keys.extend(boxes[0])
-    opened.add(0)
-    # BFS loop
-    while keys:
-        # Get the next key
-        key = keys.pop(0)
-        # Check if the key is a valid box index
-        # and if the box has not been opened
-        if 0 <= key < len(boxes) and key not in opened:
-            # Add the keys in the box to the queue
-            keys.extend(boxes[key])
-            # Mark the box as opened
-            opened.add(key)
-    # Return True if all boxes have been opened, else return False
-    return len(opened) == len(boxes)
+    length = len(boxes)
+    keys = set()
+    opened_boxes = []
+    i = 0
+
+    while i < length:
+        oldi = i
+        opened_boxes.append(i)
+        keys.update(boxes[i])
+        for key in keys:
+            if key != 0 and key < length and key not in opened_boxes:
+                i = key
+                break
+        if oldi != i:
+            continue
+        else:
+            break
+
+    for i in range(length):
+        if i not in opened_boxes and i != 0:
+            return False
+    return True
